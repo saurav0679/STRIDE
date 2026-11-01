@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="sage" data-stage="landing">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride – Find your pace. Make progress.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+  /* Apply saved theme + accent before first paint (no flash) */
+  try {
+    var s = JSON.parse(localStorage.getItem('stride.v2.settings')) || {};
+    var d = document.documentElement;
+    d.dataset.theme = s.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (s.accent) d.dataset.accent = s.accent;
+    d.dataset.stage = localStorage.getItem('stride.v2.welcomed') ? 'app' : 'landing';
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<section class="landing" aria-label="Welcome">
+  <div class="landing-brand"><i data-lucide="leaf"></i><span>STRIDE</span></div>
+  <div class="landing-hero">
+    <p class="eyebrow">WELCOME TO STRIDE</p>
+    <h1>Find your pace.<br><span>Make progress.</span></h1>
+    <p>Plan your day, find your focus and make space for what matters.</p>
+    <button class="start-btn" id="startBtn" data-act="ask">Get started <i data-lucide="arrow-right"></i></button>
+    <form id="nameForm" class="name-form" hidden>
+      <label for="nameField">What should we call you?</label>
+      <div class="name-row">
+        <input id="nameField" name="name" maxlength="30" required autocomplete="given-name" placeholder="Your name">
+        <button class="start-btn" type="submit">Continue <i data-lucide="arrow-right"></i></button>
+      </div>
+    </form>
+    <p class="note">A calmer way to move through your day.</p>
+  </div>
+  <p class="landing-foot">Made for better days. © STRIDE</p>
+</section>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+    <div class="brand"><i data-lucide="leaf"></i><span>STRIDE</span></div>
+    <nav id="nav" aria-label="Primary"></nav>
+    <a class="profile" href="#settings" aria-label="Profile and settings">
+      <span class="avatar" id="avatar" aria-hidden="true"></span>
+      <span><b id="profName"></b><small>Saved on this device</small></span>
+    </a>
+  </aside>
+  <div class="scrim" data-act="menu"></div>
+
+  <div class="content">
+    <header class="top">
+      <button class="icon-btn menu" data-act="menu" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar"><i data-lucide="menu"></i></button>
+      <h1 id="pageTitle"></h1>
+      <label class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search tasks  ( / )" aria-label="Search tasks" autocomplete="off"></label>
+      <button class="icon-btn" id="themeBtn" data-act="theme" aria-label="Switch between light and dark theme"></button>
+      <button class="btn primary" id="addBtn" data-act="add" title="Add task (N)" aria-label="Add task"><i data-lucide="plus"></i><span>Add task</span></button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+<dialog id="taskDlg" aria-labelledby="taskDlgTitle">
+  <form id="taskForm" class="dlg">
+    <h2 id="taskDlgTitle">New task</h2>
+    <input type="hidden" name="id">
+    <label>Title<input name="title" required maxlength="80" placeholder="What needs doing?"></label>
+    <label>Description<textarea name="desc" rows="3" maxlength="240" placeholder="Optional details"></textarea></label>
+    <div class="two">
+      <label>Category<select name="category"></select></label>
+      <label>Priority<select name="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+    </div>
+    <div class="two">
+      <label>Due date<input type="date" name="date" required></label>
+      <fieldset class="timepick">
+        <legend>Due time</legend>
+        <input type="hidden" name="time">
+        <div class="tsel-row">
+          <select id="tHour" class="tsel" aria-label="Hour"><option value="">No time</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+          <select id="tMin" class="tsel" aria-label="Minutes"><option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option></select>
+          <select id="tAmpm" class="tsel" aria-label="AM or PM"><option>AM</option><option>PM</option></select>
+        </div>
+      </fieldset>
+    </div>
+    <p class="err" id="formErr" role="alert"></p>
+    <div class="dlg-f"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Save task</button></div>
+  </form>
+</dialog>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
